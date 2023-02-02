@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UserNameForOrder {
     private WebDriver driver;
+
     private By firstNameField = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[1]/input");// Поле Имя
     private By secondNameField = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[2]/input");//Поле Фамилия
     private By streetNameField = By.xpath("//*[@id=\"root\"]/div/div[2]/div[2]/div[3]/input");//Поле Адрес

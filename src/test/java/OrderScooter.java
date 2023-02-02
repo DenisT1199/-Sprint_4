@@ -9,19 +9,36 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 @RunWith(Parameterized.class)
 public class OrderScooter {
+    private final String deliveryDate;
+    private final String number;
+    private final String color;
+    private final String deliveryComment;
+    private final String firstName;
+    private final String secondName;
+    private final String streetName;
+    private final String Station;
+    private final String phoneNumber;
     private final By button;
     private WebDriver driver;
 
-    public OrderScooter(By button) {
+    public OrderScooter(By button, String firstName, String secondName, String streetName,String Station, String phoneNumber, String deliveryDate,String number, String color, String deliveryComment) {
         this.button = button;
-
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.streetName = streetName;
+        this.Station = Station;
+        this.phoneNumber = phoneNumber;
+        this.deliveryDate = deliveryDate;
+        this.number = number;
+        this.color = color;
+        this.deliveryComment = deliveryComment;
     }
 
     @Parameterized.Parameters
     public static Object[] getInputData() {
-        return new Object[]{
-                By.xpath("//*[@id=\"root\"]/div/div[1]/div[1]/div[2]/button[1]"),
-                By.xpath("//*[@id=\"root\"]/div/div[1]/div[4]/div[2]/div[5]/button")
+        return new Object[][]{
+                {By.xpath("//*[@id=\"root\"]/div/div[1]/div[1]/div[2]/button[1]"), "Владимир", "Рыбин", "Владивосток", "Бульвар Россоковского", "+72345677654", "12.12.12", "1", "Grey", "Нет комментариев"},
+                {By.xpath("//*[@id=\"root\"]/div/div[1]/div[4]/div[2]/div[5]/button"), "Денис", "Тонконогов", "Москва", "Бульвар Россоковского", "+77777777777", "21.12.21", "7", "Black", "Скорее бы привезли"}
         };
     }
 
@@ -40,10 +57,10 @@ public class OrderScooter {
         objMainPage.clickOrderButton(button);// выбрать "UP" - Кнопка Заказать в верхнем правом углу."MID" - Кнопка заказать в центре страницы
 
         UserNameForOrder objForOrder = new UserNameForOrder(driver);// Выбор station из станций: "Бульвар Россоковского", "Чистые пруды", "Тёплый Стан", "Сокольники", "Красные Ворота"
-        objForOrder.isTheScooterFor("Денис", "Тонконогов", "Москва", "Бульвар Россоковского", "+79999999999");
+        objForOrder.isTheScooterFor(firstName, secondName, streetName, Station, phoneNumber);
 
         RentInInfo objAboutRent = new RentInInfo(driver);
-        objAboutRent.aboutRent("12.12.12", "1", "Black", "Нет комментария");
+        objAboutRent.aboutRent(deliveryDate, number, color, deliveryComment);
 
         HeaderWithTwoButtons objTwoButtons = new HeaderWithTwoButtons(driver);
         objTwoButtons.isTheScooterFor();
@@ -52,26 +69,7 @@ public class OrderScooter {
         objIsProcessed.checkText();
     }
 
-    @Test
-    public void OrderTest1() {
 
-        MainPage objMainPage = new MainPage(driver);
-
-        // кликни на кнопку Заказать
-        objMainPage.clickOrderButton(button);
-
-        UserNameForOrder objForOrder = new UserNameForOrder(driver);// Выбор station из станций: "Бульвар Россоковского", "Чистые пруды", "Тёплый Стан", "Сокольники", "Красные Ворота"
-        objForOrder.isTheScooterFor("Владимир", "Рыбин", "Владивосток", "Бульвар Россоковского", "+72345677654");
-
-        RentInInfo objAboutRent = new RentInInfo(driver);
-        objAboutRent.aboutRent("21.12.21", "5", "Grey", "Есть много комментариев");
-
-        HeaderWithTwoButtons objTwoButtons = new HeaderWithTwoButtons(driver);
-        objTwoButtons.isTheScooterFor();
-
-        OrderIsProcessed objIsProcessed = new OrderIsProcessed(driver);
-        objIsProcessed.checkText();
-    }
     @After
     public void cleanUp() {
 

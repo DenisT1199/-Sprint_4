@@ -49,10 +49,8 @@ public class FaqTest {
         public void initialize() {
             driver = new ChromeDriver();
             driver.get("https://qa-scooter.praktikum-services.ru/");
-
             WebElement element = driver.findElement(By.id("accordion__heading-7"));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);//Скролл до нужного элемента
-
             driver.findElement(By.id("rcc-confirm-button")).click();// Закрыть всплывающее окно сообщающее про куки
         }
 
@@ -60,8 +58,7 @@ public class FaqTest {
 
         public void ComparisonTest() {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("scroll(0, 2800);");
+
             wait.until((ExpectedConditions.visibilityOfElementLocated(selectorQuestion)));
             driver.findElement(selectorQuestion).click();
             wait.until(ExpectedConditions.visibilityOfElementLocated(selectorText));
